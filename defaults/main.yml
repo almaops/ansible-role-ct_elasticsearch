@@ -1,0 +1,44 @@
+---
+# General settings
+ct_elasticsearch_task_prefix: "=== CT_ELASTICSEARCH ==="
+
+# Path settings
+ct_elasticsearch_path_srv: "/srv/{{ ct_elasticsearch_ct_name }}"
+ct_elasticsearch_path_data: "{{ ct_elasticsearch_path_srv }}/data"
+
+# Network settings
+ct_elasticsearch_bind_addr: "{{ backnet_ip | default('127.0.0.1') }}"
+ct_elasticsearch_bind_port: "9200"
+
+# Container settings
+ct_elasticsearch_ct_name: "elasticsearch"
+ct_elasticsearch_ct_image: "docker.elastic.co/elasticsearch/elasticsearch"
+ct_elasticsearch_ct_version: "7.8.1"
+ct_elasticsearch_ct_hostname: "{{ inventory_hostname }}"
+
+ct_elasticsearch_ct_restart_policy: "always"
+ct_elasticsearch_ct_pull: "false"
+ct_elasticsearch_ct_recreate: "false"
+ct_elasticsearch_ct_state: "started"
+ct_elasticsearch_ct_restart: "false"
+
+ct_elasticsearch_ct_ports:
+  - "{{ ct_elasticsearch_bind_addr }}:{{ ct_elasticsearch_bind_port }}:9200"
+ct_elasticsearch_ct_volumes:
+  - "{{ ct_elasticsearch_path_data }}:/usr/share/elasticsearch/data"
+ct_elasticsearch_ct_ulimits:
+  - "nofile:65535:65535"
+ct_elasticsearch_ct_env:
+  discovery.type: "single-node"
+  ES_JAVA_OPTS: "-Xms{{ ct_elasticsearch_java_xms }} -Xmx{{ ct_elasticsearch_java_xmx }}"
+  xpack.security.enabled: "true"
+  xpack.monitoring.collection.enabled: "true"
+
+#ct_elasticsearch_ct_log_driver: "json-file"
+#ct_elasticsearch_ct_log_options:
+#  max-size: "10m"
+#  max-file: "3"
+
+# additional configuration options
+ct_elasticsearch_java_xms: "8g"
+ct_elasticsearch_java_xmx: "8g"

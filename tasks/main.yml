@@ -1,0 +1,28 @@
+---
+
+- name: "{{ ct_docker_registry_task_prefix }} create directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    recurse: true
+  loop:
+    - "{{ ct_elasticsearch_path_srv }}"
+    - "{{ ct_elasticsearch_path_data }}"
+
+- name: "{{ ct_elasticsearch_task_prefix }} create container {{ ct_elasticsearch_ct_name }}"
+  docker_container:
+    name: "{{ ct_elasticsearch_ct_name }}"
+    image: "{{ ct_elasticsearch_ct_image }}:{{ ct_elasticsearch_ct_version }}"
+    ports: "{{ ct_elasticsearch_ct_ports }}"
+    restart_policy: "{{ ct_elasticsearch_ct_restart_policy }}"
+    state: "{{ ct_elasticsearch_ct_state }}"
+    restart: "{{ ct_elasticsearch_ct_restart | bool }}"
+    pull: "{{ ct_elasticsearch_ct_pull | bool }}"
+    recreate: "{{ ct_elasticsearch_ct_recreate | bool }}"
+    volumes: "{{ ct_elasticsearch_ct_volumes }}"
+    env: "{{ ct_elasticsearch_ct_env }}"
+    hostname: "{{ ct_elasticsearch_hostname }}"
+    ulimits: "{{ ct_elasticsearch_ct_ulimits }}"
+    log_driver: "{{ ct_elasticsearch_log_driver | default(omit) }}"
+    log_options: "{{ ct_elasticsearch_ct_log_options | default(omit) }}"
