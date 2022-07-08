@@ -12,8 +12,8 @@ ct_elasticsearch_bind_port: "9200"
 
 # Container settings
 ct_elasticsearch_ct_name: "elasticsearch"
-ct_elasticsearch_ct_image: "docker.elastic.co/elasticsearch/elasticsearch"
-ct_elasticsearch_ct_version: "7.8.1"
+ct_elasticsearch_ct_image: "elasticsearch"
+ct_elasticsearch_ct_version: "8.3.1"
 ct_elasticsearch_ct_hostname: "{{ inventory_hostname }}"
 
 ct_elasticsearch_ct_restart_policy: "always"
